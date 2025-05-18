@@ -1,12 +1,13 @@
 package com.example.spring_matheus.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.example.spring_matheus.model.Produto;
 import com.example.spring_matheus.repository.ProdutoRepository;
+import com.example.spring_matheus.exceptions.RecursoNaoEncontradoException;
+
 
 @Service
 public class ProdutoService {
@@ -21,8 +22,9 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
-    public Optional<Produto> buscarPorId(Long id){
-        return produtoRepository.findById(id);
+    public Produto buscarPorId(Long id){
+        return produtoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Produto com ID " + id + " não encontrado"));
     }
 
     public Produto salvarProduto(Produto produto){
@@ -30,6 +32,9 @@ public class ProdutoService {
     }
 
     public void deletarProduto(Long id){
+        if (!produtoRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("Produto com ID " + id + " não encontrado");
+        }
         produtoRepository.deleteById(id);
     }
     

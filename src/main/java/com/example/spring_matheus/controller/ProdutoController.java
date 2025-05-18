@@ -3,11 +3,13 @@ package com.example.spring_matheus.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.spring_matheus.exceptions.RecursoNaoEncontradoException;
 import com.example.spring_matheus.model.Produto;
 import com.example.spring_matheus.service.ProdutoService;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,11 +35,11 @@ public class ProdutoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> buscarProduto(@PathVariable Long id) {
-        return produtoService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> buscarProduto(@PathVariable Long id) {
+            Produto produto = produtoService.buscarPorId(id);
+            return ResponseEntity.ok(produto);
     }
+    
 
     @PostMapping()
     public Produto criarProduto(@RequestBody Produto produto) {
