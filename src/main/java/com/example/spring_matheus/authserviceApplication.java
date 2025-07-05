@@ -4,10 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringMatheusApplication {
+public class authserviceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringMatheusApplication.class, args);
+		SpringApplication.run(authserviceApplication.class, args);
 	}
-
 }
